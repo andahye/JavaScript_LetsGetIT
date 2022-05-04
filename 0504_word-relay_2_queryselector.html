@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>word-relay_querySlector(선택자)</title>
+</head>
+<body>
+    <div class="user">
+        <span id="order">1</span>번째 참가자
+    </div>
+    <div class="word">
+        제시어: <span id="word"></span>
+    </div>
+    <input type="text">
+    <button class="target">입력</button>
+    <button class="btn">입력2</button>
+    <button class="btn target">입력3</button>
+    <span id="etc"><br>div안에 포함되지 않은 span입니다.</span>
+
+    <script>
+
+        // 01. 선택하기: 자바스크립트에서 html 태그를 가져오는 것 === querySlector
+        // documnet.querySlector('선택자');
+        const $button = document.querySelector('button');
+        console.log($button);
+        // 버튼이 여러개일때, querySelector를 사용하면 첫번째것만 선택된다. 
+        // -> 아이디, 클래스를 이용하여 특정해주자. 
+
+        // 01-2. ID, class를 이용한 선택
+        document.querySelector('span#order'); //#아이디가 order인 span. But 굳이 span 안붙여도 됨.
+        document.querySelector('.btn'); //입력2, 입력3 버튼 선택
+        document.querySelector('.target'); //입력1, 입력3 버튼 선택
+        
+        // 01-3. 자손 태그 선택 === 부모(띄어쓰기)자손
+        const $spans = document.querySelectorAll('div span'); //div안에 span
+        console.log($spans); //NodeList(2) [span#order, span#word]
+        
+        const $userspan = document.querySelector('body .user span');//바디안에 .user안에 span
+        console.log($userspan); //NodeList [span#order]
+
+        // 01-4. 자식 태그 선택 === 부모 > 자식
+        const $span = document.querySelectorAll('.word > span'); //.word 바로 밑에 span 
+        console.log($span); //NodeList [span#word]
+
+
+        // 02. 여러개를 선택할 때 === querySelectorAll
+        const $$buttons = document.querySelectorAll('button');
+        console.log($$buttons); 
+        //NodeList(3) [button, button, button] 배열처럼 보이지만 객체. 배열도 객체이긴 하나, 이것은 객체임. 
+        // 유사배열: 배열처럼 보이는 객체
+        // fucntion() { console.log(argument)} <-argument 또한 유사배열. 
+
+
+        // Q. a 태그 안에 id가 b인 태그 안에 class가 c인 태그를 선택하려면 어떤 선택자를 사용해야 하는가?
+        // a #b .c
+
+    </script>
+</body>
+</html>
