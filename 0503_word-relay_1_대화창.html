@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>word-relay_대화창</title>
+</head>
+<body>
+    <div>
+        <span id="order">1</span>번째 참가자
+    </div>
+    <input type="text">
+    <button>입력</button>
+    <script>
+        // 01. prompt
+        // prompt('몇 명이 참가하나요?'); 
+        // 밑에 입력한 값을 받는다. 단, 문자열로 인식. 
+        // -> 숫자로 인식하게 하려면 parseInt를 사용하자.
+        const number = parseInt(prompt('몇 명이 참가하나요?'), 10);
+        // ,10은 10진법으로 인식한다는 뜻. 굳이 안 써도 된다. 
+
+        // 02. alert: 경고창
+        alert(number);
+
+        // 03. confirm: 예, 아니오(확인, 취소)를 받는 대화상자
+        const YesOrNo = confirm('맞나요?');
+    </script>
+</body>
+</html>
