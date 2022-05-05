@@ -17,11 +17,30 @@
     <input type="text">
     <button>입력</button>
 
+    <div>
+        <p>
+            입력태그.value === 입력창의 값을 가져옴<br>
+            입력태그.value = 값 === 입력창에 값을 넣음<br><br>
+            입력태그.focus(); === 입력창을 하이라이트(커서 깜빡깜빡)
+        </p>
+        <p>
+            태그들의 내부 값을 가져올 때 사용해야 하는 속성<br>
+            input === value<br>
+            select === value<br>
+            textarea === value<br>
+            button === textContent<br>
+            div === textContent<br>
+            span === textContent<br><br>
+            * 뭔가를 입력하는 애들은 대부분 value, 나머지는 textContent
+        </p>
+    </div>
+
     <script>
         // const number = Number(prompt('몇 명이 참가하나요?'));
         const $button = document.querySelector('button');
         const $input = document.querySelector('input');
         const $word = document.querySelector('#word');
+        const $order = document.querySelector('#order');
         let word; // 제시어
         let newWord; // 새로 입력한 단어
 
@@ -30,27 +49,31 @@
                 // 비어있다.
                 word = newWord; // 입력한 단어가 제시어가 된다. (데이터를 바꾸고)
                 $word.textContent = word; // (화면을 바꾼다.)
-                $input.value = '';
                 const order = Number($order.textContent); // 현재 순서
-                if (order === number) {
+                if (order === Number) {
                     $order.textContent = 1;
                 } else {
                     $order.textContent = order + 1;
                 }
+                $input.value = ''; //입력창에 값을 넣음(이 경우 공백이므로 비워짐)
+                $input.focus(); //커서 깜빡깜빡
             } else {
                 // 비어있지 않다. 
                 if(word[word.length - 1] === newWord[0]) { // 올바르다 = word의 끝글자와 newWord의 첫글자가 같은가
                 word = newWord; // 입력한 단어가 제시어가 된다. (데이터를 바꾸고)
                 $word.textContent = word; // (화면을 바꾼다.)
-                $input.value = '';
                 const order = Number($order.textContent); // 현재 순서
-                if (order === number) {
+                if (order === Number) {
                     $order.textContent = 1;
                 } else {
                     $order.textContent = order + 1;
                 } 
+                $input.value = ''; //입력창이 비워진다
+                $input.focus(); //커서 깜빡깜빡
                 } else { // 올바르지 않다
-
+                    alert('올바르지 않은 단어입니다.');
+                    $input.value = ''; //입력창이 비워진다
+                    $input.focus(); //커서 깜빡깜빡
                 }
             }
         };
