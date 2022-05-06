@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>word-relay_최적화하기</title>
+</head>
+<body>
+    
+    <div>
+        <span id="order">1</span>번째 참가자
+    </div>
+    <div>
+        제시어: <span id="word"></span>
+    </div>
+    <input type="text">
+    <button>입력</button>
+
+    <div>
+        <p>
+            OR는 둘 다 false여야 false<br>
+            AND는 둘 다 true여야 true
+        </p>
+
+        <p>
+            Q. 다음 논리 연산의 결과는?<br>
+            true && false === false<br>
+            false && true === false<br>
+            false || true === true<br>
+            true || false === true
+        </p>
+    </div>
+
+    <script>
+        const number = Number(prompt('몇 명이 참가하나요?'));
+        const $button = document.querySelector('button');
+        const $input = document.querySelector('input');
+        const $word = document.querySelector('#word');
+        const $order = document.querySelector('#order');
+        let word; // 제시어
+        let newWord; // 새로 입력한 단어
+
+        const onClickButton = () => {
+            if(!word || word[word.length - 1] === newWord[0]) { // 제시어가 비어있는가? ||또는 word의 끝글자와 newWord의 첫글자가 같은가?
+                word = newWord; // 입력한 단어가 제시어가 된다. (데이터를 바꾸고)
+                $word.textContent = word; // (화면을 바꾼다.)
+                const order = Number($order.textContent); // 현재 순서
+                if (order === Number) {
+                    $order.textContent = 1;
+                } else {
+                    $order.textContent = order + 1;
+                }
+                // $input.value = ''; 입력창에 값을 넣음(이 경우 공백이므로 비워짐)
+                // $input.focus(); 커서 깜빡깜빡
+            // } else { = 중복되는 부분. 상단 if문에 ||을 넣어 이 부분은 전부 삭제.
+            //     // 비어있지 않다. 
+            //     if(word[word.length - 1] === newWord[0]) { // 올바르다 = word의 끝글자와 newWord의 첫글자가 같은가
+            //     word = newWord; // 입력한 단어가 제시어가 된다. (데이터를 바꾸고)
+            //     $word.textContent = word; // (화면을 바꾼다.)
+            //     const order = Number($order.textContent); // 현재 순서
+            //     if (order === Number) {
+            //         $order.textContent = 1;
+            //     } else {
+            //         $order.textContent = order + 1;
+            //     } 
+            //     $input.value = ''; //입력창이 비워진다
+            //     $input.focus(); //커서 깜빡깜빡
+            } else { // 올바르지 않다
+                alert('올바르지 않은 단어입니다.');
+                // $input.value = ''; 입력창이 비워진다
+                // $input.focus(); 커서 깜빡깜빡 -> 이와 같이 끝에 있으면서 겹쳐있는 애는 중괄호 밖으로 빼서 중복 삭제.
+            }
+            $input.value = ''; //입력창에 값을 넣음(이 경우 공백이므로 비워짐)
+            $input.focus(); //커서 깜빡깜빡
+        };
+        const onInput = (event) => {
+            newWord = event.target.value;
+        };
+
+        $button.addEventListener('click', onClickButton);
+        $input.addEventListener('input', onInput);
+    </script>
+</body>
+</html>
