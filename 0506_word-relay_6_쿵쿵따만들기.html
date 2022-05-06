@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>word-relay_쿵쿵따 만들기</title>
+</head>
+<body>
+    
+    <div>
+        <span id="order">1</span>번째 참가자
+    </div>
+    <div>
+        제시어: <span id="word"></span>
+    </div>
+    <input type="text">
+    <button>입력</button>
+
+    <div>
+        <p>
+            글자가 세 글자이고 (제시어가 비어있거나 단어가 올바른가?)
+        </p>
+    </div>
+
+    <script>
+        const number = Number(prompt('몇 명이 참가하나요?'));
+        
+        if(number) {
+            const $button = document.querySelector('button');
+            const $input = document.querySelector('input');
+            const $word = document.querySelector('#word');
+            const $order = document.querySelector('#order');
+            let word; // 제시어
+            let newWord; // 새로 입력한 단어
+
+            const onClickButton = () => {
+            if(newWord.length === 3 && (!word || word[word.length - 1] === newWord[0])) { 
+                // 글자가 세글자이고 (제시어가 비어있거나 단어가 올바른가?)
+                word = newWord; // 입력한 단어가 제시어가 된다. (데이터를 바꾸고)
+                $word.textContent = word; // (화면을 바꾼다.)
+                const order = Number($order.textContent); // 현재 순서
+                if (order + 1 > Number) {
+                    $order.textContent = 1;
+                } else {
+                    $order.textContent = order + 1;
+                }
+            } else { // 올바르지 않다
+                alert('올바르지 않은 단어입니다.');
+            }
+            $input.value = ''; //입력창에 값을 넣음(이 경우 공백이므로 비워짐)
+            $input.focus(); //커서 깜빡깜빡
+        };
+        const onInput = (event) => {
+            newWord = event.target.value;
+        };
+        $button.addEventListener('click', onClickButton);
+        $input.addEventListener('input', onInput);
+        }
+        
+    </script>
+</body>
+</html>
