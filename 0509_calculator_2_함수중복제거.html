@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>calculator_함수 중복 제거하기(고차함수)</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        #result {
+            width: 180px;
+            height: 50px;
+            margin: 5px;
+            text-align: right;
+        }
+        #operator {
+            width: 50px;
+            height: 50px;
+            margin: 5px;
+            text-align: center;
+        }
+        button {
+            width: 50px;
+            height: 50px;
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+    <input readonly id="operator">
+    <input readonly type="number" id="result">
+    <div class="row">
+        <button id="num-7">7</button>
+        <button id="num-8">8</button>
+        <button id="num-9">9</button>
+        <button id="plus">+</button>
+    </div>
+    <div class="row">
+        <button id="num-4">4</button>
+        <button id="num-5">5</button>
+        <button id="num-6">6</button>
+        <button id="minus">-</button>
+    </div>
+    <div class="row">
+        <button id="num-1">4</button>
+        <button id="num-2">5</button>
+        <button id="num-3">6</button>
+        <button id="divide">/</button>
+    </div>
+    <div class="row">
+        <button id="clear">C</button>
+        <button id="num-0">0</button>
+        <button id="calculate">=</button>
+        <button id="multiply">X</button>
+    </div>
+
+    <div>
+        <p>
+            대부분 중복인데, 변하는 숫자가 있어서 어떻게 중복을 제거해야 할지 모르겠다면<br>
+            -> 달라지는 부분(숫자)을 매개변수로 지정하면 됩니다.<br> 
+            자바스크립트의 데이터를 바꿔주면 -> 화면을 바꿔주는 작업을 해야합니다.
+        </p>
+    </div>
+
+    <script>
+        let numOne = '';
+        let operator = '';
+        let numTwo = '';
+        const $operator = document.querySelector('#operator');
+        const $result = document.querySelector('#result');
+        const onClickNumber = (number) => () => {
+                if(operator) {
+                    numTwo += 'number';
+                } else {
+                    numOne += 'number';
+                }
+                $result.value += 'number';
+                // return undefined; 함수 마지막에는 return undefined;가 디폴트. 즉, ('click', onClickNumber('0'));의 함수 자리에 'undefined'를 넣은 셈 -> 오류가 나게 된다. 
+                // -> 그런데, 마지막에 return undefined; 대신 return 함수를 넣으려 해도 넣을 것이 없다. 
+                // -> 순서도에 맞게 return 함수를 위로 빼준다. 
+                // -> 화살표 함수는 중괄호 바로 다음에 return이 나오면 중괄호와 return 생략이 가능하다.
+                // = return () => {} -> () => 이를 함수 안에 함수가 있다. 함수가 함수를 return하고 있다. 
+                // = 고차 함수(high order function)
+
+            };
+        document.querySelector('#num-0').addEventListener('click', onClickNumber('0'));
+        document.querySelector('#num-1').addEventListener('click', onClickNumber('1'));
+        document.querySelector('#num-2').addEventListener('click', onClickNumber('2'));
+        document.querySelector('#num-3').addEventListener('click', onClickNumber('3'));
+        document.querySelector('#num-4').addEventListener('click', onClickNumber('4'));
+        document.querySelector('#num-5').addEventListener('click', onClickNumber('5'));
+        document.querySelector('#num-6').addEventListener('click', onClickNumber('6'));
+        document.querySelector('#num-7').addEventListener('click', onClickNumber('7'));
+        document.querySelector('#num-8').addEventListener('click', onClickNumber('8'));
+        document.querySelector('#num-9').addEventListener('click', onClickNumber('9'));
+
+        const onClickOperator = (op) => () => {
+            if (numOne) {
+                operator = op;
+                $operator.value = op;
+            } else {
+                alert('숫자를 먼저 입력하세요.');
+            }
+        }
+        document.querySelector('#plus').addEventListener('click', onClickOperator('+'));
+        document.querySelector('#minus').addEventListener('click', onClickOperator('-'));
+        document.querySelector('#divide').addEventListener('click', onClickOperator('/'));
+        document.querySelector('#multiply').addEventListener('click', onClickOperator('*'));
+        document.querySelector('#calculate').addEventListener('click', onClickOperator('='));
+        document.querySelector('#clear').addEventListener('click', onClickOperator('C'));
+
+         // 01. 고차 함수
+
+        const func = () => {
+            return () => {
+                console.log('hello');
+            }
+        }
+        // func 함수를 호출하면 함수를 반환한다. 반환한 함수는 다른 변수에 저장할 수 있고 변수에 저장된 함수를 다시 호출할 수도 있다. 
+
+        const innerFunc = func();
+        innerFunc(); //hello
+        // 함수가 호출된 코드(함수 이름 뒤에 ()가 붙은 코드)가 있다면 그 부분을 실제 return값으로 치환하면 이해하기 쉽다.
+        // func 함수는 hello라는 문자열을 console.log하는 함수를 찍어내는 공장이라고 생각할 수 있다. func 함수를 호출할 때마다 return한 함수가 생성된다.
+        
+        const innerFunc1 = func();
+        const innerFunc2 = func();
+        const innerFunc3 = func();
+
+        // hello라는 문자열을 다른 값으로 바꾸고 싶다면 어떻게 해야할까? 바꾸고 싶은 자리를 매개변수를 만들면 된다. hello 문자열을 msg 매개변수로 바꿔보자.
+
+        const func2 = (msg) => {
+            return () => {
+                console.log(msg);
+            };
+        };
+
+        // 이제 func2 함수를 호출하면, func2 함수에 넣은 매개변수를 console.log 하는 함수가 반환된다.  
+
+        const innerFuncA = func2('hello');
+        const innerFuncB = func2('javascript');
+        const innerFuncC = func2();
+
+        innerFuncA(); //hello
+        innerFuncB(); //javascript
+        innerFuncC(); //undefined
+
+        // 마찬가지로 func2 함수 호출 부분을 return값으로 대체해보면 이해된다. 이때 매개변수 위치에는 실제 값을 넣어야 한다.(본문에서는 eroor 방지를 위해 함수 앞에 $붙임.)
+        const $innerFuncA = () => {
+            console.log('hello');
+        };
+        const $innerFuncB = () => {
+            console.log('javascript');
+        };
+        const $innerFuncC = () => {};
+
+
+        // 01-2. 고차 함수에서 중괄호와 return 생략
+        const func3 = (msg) => () {
+            console.log(msg);
+        }
+        // 화살표 함수에서 { 바로 다음 return이 나오면 {}와 return 생략 가능.
+
+
+        // Q. 다음 코드의 comsol.log 결과를 맞춰보세요.
+            const hof = (a) => (b) => (c) => {
+            return a + (b * c);
+        };
+        const first = hof(3); // a가 3이 된다 
+        // (b) => (c) => { return 3 + (b * c); }
+        const second = first(4); // a는 3, b는 4가 된다.
+        // (c) => { return 3 + (4 * c); }
+        const third = second(5); // a는 3, b는 4, c는 5가 된다. 
+        // 3 + (4 * 5);
+        console.log(third); //23
+
+    </script>
+</body>
+</html>
