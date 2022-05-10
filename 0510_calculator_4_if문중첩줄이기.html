@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>calculator_if문 중첩 줄이기</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        #result {
+            width: 180px;
+            height: 50px;
+            margin: 5px;
+            text-align: right;
+        }
+        #operator {
+            width: 50px;
+            height: 50px;
+            margin: 5px;
+            text-align: center;
+        }
+        button {
+            width: 50px;
+            height: 50px;
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+    <input readonly id="operator">
+    <input readonly type="number" id="result">
+    <div class="row">
+        <button id="num-7">7</button>
+        <button id="num-8">8</button>
+        <button id="num-9">9</button>
+        <button id="plus">+</button>
+    </div>
+    <div class="row">
+        <button id="num-4">4</button>
+        <button id="num-5">5</button>
+        <button id="num-6">6</button>
+        <button id="minus">-</button>
+    </div>
+    <div class="row">
+        <button id="num-1">4</button>
+        <button id="num-2">5</button>
+        <button id="num-3">6</button>
+        <button id="divide">/</button>
+    </div>
+    <div class="row">
+        <button id="clear">C</button>
+        <button id="num-0">0</button>
+        <button id="calculate">=</button>
+        <button id="multiply">X</button>
+    </div>
+
+    <div>
+        <p>
+            if문의 중첩을 제거하는 방법<br>
+            1. if문 다음에 나오는 공통된 절차를 각 분기점 내부에 넣는다.(중복된 절차를 각각 넣어준다)<br>
+            2. 절차 중 분기점에서 짧은 절차부터 실행하게 if문을 작성한다.(짧은 것이 위로 올라오도록 ! 등을 이용하여 조건을 바꿔준다.)<br>
+            3. 짧은 절차가 끝나면 result(함수 내부의 경우)이나 break(for문 내부의 경우)로 중단한다.<br>
+            4. else를 제거한다(이때 중첩 하나가 제거 된다) -> return 뒤에 else가 나오면 뒤의 else는 제거해도 OK.<br>
+            5. 다음 중첩된 분기점이 나오면 1~4의 과정을 반복한다.
+        </p>
+    </div>
+
+    <script>
+        let numOne = '';
+        let operator = '';
+        let numTwo = '';
+        const $operator = document.querySelector('#operator');
+        const $result = document.querySelector('#result');
+        const onClickNumber = (event) => {
+                if(!operator) { //operator가 !없다(비어있다)
+                    numOne += event.target.textContent;
+                    $result.value += event.target.textContent;
+                    return; //return을 넣으면 뒤에 else 지워도 됨. 
+                } //operator가 있다(비어있지 않다)
+                if(!numTwo) { 
+                        $result.value = ''; // 화면의 숫자를 지워라
+                    } // -> 연산자를 누른 후 숫자가 지워지지 않는 버그를 제거합니다.
+                    numTwo += event.target.textContent;
+                    $result.value += event.target.textContent;
+                };
+
+
+        // if (조건A) {
+        //     if (조건B) {
+        //         if (조건C) {
+        //         }
+        //     } else {
+        //         if (조건D) {
+        //             나는 어떨 때 실행 되지?
+        //             if (조건E) {
+        //             } else {
+        //                 나는?
+        //             }
+        //             나는?
+        //         } else {
+        //         }
+        //     }
+        // }
+        // 이런 식으로 if else가 중첩되면 가독성이 굉장히 안 좋아진다. 
+
+
+        // Q. 다음 if문을 줄여라.
+        function test() {
+            let result = '';
+            if (a) {
+                if (!b) {
+                result = 'c';
+            }
+        } else {
+            result = 'a';
+        } 
+        result += 'b';
+        return result;
+        }
+
+        function test() {
+            let result = '';
+            if (!a) {
+                result = 'a';
+                result += 'b';
+                return result;
+        } 
+        if (!b) {
+            result = 'c';
+            }
+            result += 'b';
+            return result; 
+        }
+        
+        document.querySelector('#num-0').addEventListener('click', onClickNumber);
+        document.querySelector('#num-1').addEventListener('click', onClickNumber);
+        document.querySelector('#num-2').addEventListener('click', onClickNumber);
+        document.querySelector('#num-3').addEventListener('click', onClickNumber);
+        document.querySelector('#num-4').addEventListener('click', onClickNumber);
+        document.querySelector('#num-5').addEventListener('click', onClickNumber);
+        document.querySelector('#num-6').addEventListener('click', onClickNumber);
+        document.querySelector('#num-7').addEventListener('click', onClickNumber);
+        document.querySelector('#num-8').addEventListener('click', onClickNumber);
+        document.querySelector('#num-9').addEventListener('click', onClickNumber);
+
+        const onClickOperator = (op) => () => {
+            if (numOne) {
+                operator = op;
+                $operator.value = op;
+            } else {
+                alert('숫자를 먼저 입력하세요.');
+            }
+        }
+        document.querySelector('#plus').addEventListener('click', onClickOperator('+'));
+        document.querySelector('#minus').addEventListener('click', onClickOperator('-'));
+        document.querySelector('#divide').addEventListener('click', onClickOperator('/'));
+        document.querySelector('#multiply').addEventListener('click', onClickOperator('*'));
+        document.querySelector('#calculate').addEventListener('click', onClickOperator('='));
+        document.querySelector('#clear').addEventListener('click', onClickOperator('C'));
+
+    </script>
+</body>
+</html>
