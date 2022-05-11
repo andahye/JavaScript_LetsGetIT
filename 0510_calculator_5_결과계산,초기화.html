@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>calculator_결과 계산하기, 초기화</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        #result {
+            width: 180px;
+            height: 50px;
+            margin: 5px;
+            text-align: right;
+        }
+        #operator {
+            width: 50px;
+            height: 50px;
+            margin: 5px;
+            text-align: center;
+        }
+        button {
+            width: 50px;
+            height: 50px;
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+    <input readonly id="operator">
+    <input readonly type="number" id="result">
+    <div class="row">
+        <button id="num-7">7</button>
+        <button id="num-8">8</button>
+        <button id="num-9">9</button>
+        <button id="plus">+</button>
+    </div>
+    <div class="row">
+        <button id="num-4">4</button>
+        <button id="num-5">5</button>
+        <button id="num-6">6</button>
+        <button id="minus">-</button>
+    </div>
+    <div class="row">
+        <button id="num-1">3</button>
+        <button id="num-2">2</button>
+        <button id="num-3">1</button>
+        <button id="divide">/</button>
+    </div>
+    <div class="row">
+        <button id="clear">C</button>
+        <button id="num-0">0</button>
+        <button id="calculate">=</button>
+        <button id="multiply">X</button>
+    </div>
+
+    <div>
+        <p>
+            
+        </p>
+    </div>
+
+    <script>
+        let numOne = '';
+        let operator = '';
+        let numTwo = '';
+        // 이 3개를 이용하여 어떻게 계산해야 하는가? 를 생각해봐야.
+        const $operator = document.querySelector('#operator');
+        const $result = document.querySelector('#result');
+        // 여기까지가 초기 상태.
+        const onClickNumber = (event) => {
+                if(!operator) { //operator가 !없다(비어있다)
+                    numOne += event.target.textContent;
+                    $result.value += event.target.textContent;
+                    return; //return을 넣으면 뒤에 else 지워도 됨. 
+                } //operator가 있다(비어있지 않다)
+                if(!numTwo) { 
+                        $result.value = ''; // 화면의 숫자를 지워라
+                    } // -> 연산자를 누른 후 숫자가 지워지지 않는 버그를 제거합니다.
+                    numTwo += event.target.textContent;
+                    $result.value += event.target.textContent;
+                };
+
+        document.querySelector('#num-0').addEventListener('click', onClickNumber);
+        document.querySelector('#num-1').addEventListener('click', onClickNumber);
+        document.querySelector('#num-2').addEventListener('click', onClickNumber);
+        document.querySelector('#num-3').addEventListener('click', onClickNumber);
+        document.querySelector('#num-4').addEventListener('click', onClickNumber);
+        document.querySelector('#num-5').addEventListener('click', onClickNumber);
+        document.querySelector('#num-6').addEventListener('click', onClickNumber);
+        document.querySelector('#num-7').addEventListener('click', onClickNumber);
+        document.querySelector('#num-8').addEventListener('click', onClickNumber);
+        document.querySelector('#num-9').addEventListener('click', onClickNumber);
+
+        const onClickOperator = (op) => () => {
+            if (numOne) {
+                operator = op;
+                $operator.value = op;
+            } else {
+                alert('숫자를 먼저 입력하세요.');
+            }
+        }
+        document.querySelector('#plus').addEventListener('click', onClickOperator('+'));
+        document.querySelector('#minus').addEventListener('click', onClickOperator('-'));
+        document.querySelector('#divide').addEventListener('click', onClickOperator('/'));
+        document.querySelector('#multiply').addEventListener('click', onClickOperator('*'));
+        document.querySelector('#calculate').addEventListener('click', () => {
+            if (numTwo) {
+                switch (operator) {
+                    case '+':
+                        $result.value = parseInt(numOne) + parseInt(numTwo);
+                        // numOne과 numTwo는 문자열! parseInt를 통해 숫자열로 바꿔주어야 작동한다.
+                        break;
+                    case '-':
+                        $result.value = numOne - numTwo;
+                        // 그러나, - * /는 문자열 숫자를 자동으로 숫자열로 바꿔주므로 parseInt 불필요.
+                        break;
+                    case '*':
+                        $result.value = numOne * numTwo;
+                        break;
+                    case '/':
+                        $result.value = numOne / numTwo;
+                        break;
+                    default:
+                        break;
+                }
+            } else {
+                alert('숫자를 먼저 입력하세요.');
+            }
+        });
+
+        document.querySelector('#clear').addEventListener('click', () => {
+            numOne = '';
+            operator = '';
+            numTwo = '';
+            $operator.value = '';
+            $result.value = '';
+        });
+
+
+        // Q. switch문을 if문으로 바꾸시오.
+        // if (numTwo) {
+        //         if (operator === '+') {
+        //                 $result.value = parseInt(numOne) + parseInt(numTwo);
+        //                 return;
+        //         }
+        //         if (operator === '-') {
+        //             $result.value = parseInt(numOne) - parseInt(numTwo);
+        //             return;
+        //         }
+        //         if (operator === '*') {
+        //             $result.value = parseInt(numOne) * parseInt(numTwo);
+        //             return;
+        //         }
+        //         if (operator === '/') {
+        //             $result.value = parseInt(numOne) / parseInt(numTwo);
+        //             return;
+        //         }
+        //     } else {
+        //         alert('숫자를 먼저 입력하세요.');
+        //     };
+
+        // Q. (가)부분에 어떤 문자열을 넣으면 alert창이 실행될까요?
+        // const string = 'ler';
+        // eval('a' + string + 't("eval은 쓰지마세요")');
+
+    </script>
+</body>
+</html>
