@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bulls And Cows_순서도 그리기, 화면 구현하기</title>
+</head>
+<body>
+
+    <form id="form">
+        <input type="text" id="input">
+        <button>확인</button>
+    </form>
+    <div id="logs">
+
+    </div>
+    <p>
+        순서도를 그리기 전, '큰 흐름'을 먼저 파악하자. <br>
+        가장 먼저 진행하는 것은 '그 값이 유효한지 아닌지'. 형식 검사가 먼저 수반된다. <br>
+        ex) 이메일 주소 입력 -> 형식에 맞는지? 
+    </p>
+
+    <script>
+        const $input = document.querySelector('#input');
+        const $form = document.querySelector('#form');
+        const $logs = document.querySelector('#logs');
+    </script>
+</body>
+</html>
