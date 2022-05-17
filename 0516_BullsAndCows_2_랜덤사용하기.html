@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bulls And Cows_랜덤 사용하기</title>
+</head>
+<body>
+
+    <form id="form">
+        <input type="text" id="input">
+        <button>확인</button>
+    </form>
+    <div id="logs">
+
+    </div>
+    <p>
+        프로그램을 시작한 후 숫자 네개를 뽑는데, 숫자를 뽑는 절차는 사실 여러 절차로 구성되어 있다. 먼저 네 개의 숫자를 저장할 자리를 마련해야 하고, 무작위로 숫자를 하나씩 뽑아 저장하는 절차를 네 번 반복해야 한다. 여기서 중요한 것은 무작위로 뽑지만, 중복되지 않게 뽑아야 한다는 점이다. <br><br>
+        무작위 숫자를 만드는 함수는 Math.random()입니다. 이 함수는 0 이상 1 미만의 수를 무작위로 생성한다. 숫자 야구에서는 1에서 9까지의 숫자가 필요하다. 따라서 Math.random()에 9를 곱한 후 1을 더하면 된다. 그러면 1 이상 10 미만의 수가 만들어지는데 이 수는 자연수가 아니라서 아직 쓸 수 없다. 숫자를 자연수로 만들려면 내림, 올림, 반올림을 해야한다. 이 경우에는 내림을 한다. 결과로 1부터 9까지의 자연수가 나온다. 자바스크립트에서 숫자의 내림은 Math.floor()로 할 수 있다. 참고로 올림은 Math.ceil(), 반올림은 Math.round()이다. <br><br>
+        0 <= Math.random() < 1 // 본래 Math.random() 범위<br>
+        0 <= Math.random() * 9 < 9 // 여기에 9를 곱해주는데, 원하는 것은 1~10이므로<br>
+        1 <= Math.random() * 9 + 1 < 10 // 여기에 1을 더해준다.<br><br>
+        Math.floor(Math.random() * 9 + 1) // 자릿수를 내려야하므로 Math.floor 사용한다<br>
+        Math.floor = 자릿수를 내리는 함수. <br><br>
+        *Math.random()은 암호학적으로 완전한 무작위가 아니다. 따라서 보안과 관련된 작업(비밀번호 생성 등)을 할 때는 Math.random()으로 생성된 수를 사용하면 위험하다. 이를 위한 window.crypto.getRandomValues()함수가 따로 준비되어 있다.
+
+    <script>
+        const $input = document.querySelector('#input');
+        const $form = document.querySelector('#form');
+        const $logs = document.querySelector('#logs');
+
+    </script>
+</body>
+</html>
