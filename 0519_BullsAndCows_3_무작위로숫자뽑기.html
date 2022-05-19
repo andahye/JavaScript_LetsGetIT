@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bulls And Cows_무작위로 숫자 네 개 뽑기</title>
+</head>
+<body>
+
+    <form id="form">
+        <input type="text" id="input">
+        <button>확인</button>
+    </form>
+    <div id="logs">
+
+    </div>
+
+    <script>
+        const $input = document.querySelector('#input');
+        const $form = document.querySelector('#form');
+        const $logs = document.querySelector('#logs');
+
+        const numbers = []; 
+        // 단순히 값들을 모아놓을 때는 배열, 각각의 값에 속성 이름을 붙여야 할 때는 객체 리터럴을 쓴다. 
+        for (let n = 0; n <= 9; n =+ 1) {
+            numbers.push(n + 1);
+        }
+        const answer = [];
+        for (let n = 0; n < 4; n += 1) { // 4번 반복
+            // const index = Math.floor(Math.random() * 9); // 0~8 정수
+            // [1, 2, 3, 4, 5, 6, 7, 8, 9] -> 숫자는 1부터 시작해도 인덱스는 0부터 시작.실제로 내가 3을 원하면 원하는 인덱스값은 2인것.
+            // 이대로 실행한다면?
+            // numbers [1,2,3,4,5,6,7,8,9];
+            // answer [3]
+            // numbers [1,2,4,5,6,7,8,9];
+            // answer [3, 1]
+            // numbers [2,4,5,7,8,9];
+            // answer [3, 1, 6]
+            // -> 뭐가 문제일까? 바로 숫자의 갯수는 줄어드는데 뽑는 갯수는 그대로인것. 숫자가 6개 남아있는 상태에서 인덱스 7을 뽑는다면? [3, 1, 6, undefined]으로 출력될 것이다. 
+            // 이런 식으로 최대한 아는 선에서 코드를 작성해보고, 오류를 발견하며 순서도와 코드를 수정해야 한다. '극단적인 사례'를 생각해보면 오류를 더 쉽게 발견할 수 있다.
+            // const index = Math.floor(Math.random() * (9 - n)); // 반복문이 돌때마다 숫자가 줄어든다
+            const index = Math.floor(Math.random() * (numbers.length)); // 위의 숫자가 바뀌어도 따로 바꿔줄 필요X
+            answer.push(numbers[index]);
+            numbers.splice(index, 1);
+            // *splice: 요소 삭제. 뽑은 숫자는 삭제해야하므로.
+        }
+        console.log(answer);
+
+        
+        // 반복문을 만들 때, '몇 개의 숫자를 뽑는지'를 생각하라. 
+
+    </script>
+</body>
+</html>
