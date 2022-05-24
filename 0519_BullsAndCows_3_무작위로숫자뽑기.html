@@ -23,7 +23,7 @@
 
         const numbers = []; 
         // 단순히 값들을 모아놓을 때는 배열, 각각의 값에 속성 이름을 붙여야 할 때는 객체 리터럴을 쓴다. 
-        for (let n = 0; n <= 9; n =+ 1) {
+        for (let n = 0; n <= 9; n += 1) {
             numbers.push(n + 1);
         }
         const answer = [];
@@ -43,8 +43,8 @@
             const index = Math.floor(Math.random() * (numbers.length)); // 위의 숫자가 바뀌어도 따로 바꿔줄 필요X
             answer.push(numbers[index]);
             numbers.splice(index, 1);
-            // *splice: 요소 삭제. 뽑은 숫자는 삭제해야하므로.
         }
+            // *splice: 요소 삭제. 뽑은 숫자는 삭제해야하므로.
         console.log(answer);
 
         
