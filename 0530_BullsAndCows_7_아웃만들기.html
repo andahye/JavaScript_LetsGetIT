@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bulls And Cows_아웃 만들기</title>
+</head>
+<body>
+
+    <form id="form">
+        <input type="text" id="input">
+        <button>확인</button>
+    </form>
+    <div>
+        <p>
+            지금까지는 숫자만 맞추면 볼, 숫자와 자릿수까지 맞추면 스트라이크. 그런데 숫자를 하나도 맞추지 못하면 어떻게 될까? 현재 상황에서는 '0볼 0스트라이크'라고 표시한다. 이 대신에 아웃으로 표시해보자. 그리고 3아웃이 되면 패배하게 하자. 
+        </p>
+    </div>
+    <div id="logs">
+
+    </div>
+    
+    
+    <script>
+        const $input = document.querySelector('#input');
+        const $form = document.querySelector('#form');
+        const $logs = document.querySelector('#logs');
+
+        const numbers = []; 
+        for (let n = 0; n < 9; n += 1) {
+            numbers.push(n + 1);
+        }
+        const answer = [];
+        for (let n = 0; n < 4; n += 1) { // 4번 반복
+            const index = Math.floor(Math.random() * (numbers.length)); // 0~8정수
+            answer.push(numbers[index]);
+            numbers.splice(index, 1);
+        }
+        console.log(answer);
+
+        const tries = [];
+        function checkInput(input) {
+            if (input.length !== 4) { // 길이는 4가 아닌가 
+                return alert('4자리 숫자를 입력해 주세요.');
+            }
+            if (new Set(input).size !== 4) { // 중복된 숫자가 있는가 
+                // *new Set: 중복을 제거하는 배열. 예를 들어 3144를 입력했을 경우 314만 입력됨.
+                return alert('중복되지 않게 입력해 주세요.');
+            }
+            if (tries.includes(input)) { // 이미 시도한 값은 아닌가 
+                return alert('이미 시도한 값입니다.');
+            }
+            return true;
+        } // 검사하는 코드. 가능한 함수로 뺄 수 있는 것들은 함수로 빼자. 함수로 쪼갠다고 생각하면 됨. 
+
+        let out = 0; // 프로그램으로 무언가를 셀때는 0부터 시작하며 ++해주면 된다.
+        $form.addEventListener('submit', (event) => {
+            event.preventDefault(); // 기본 동작 막기
+            const value = $input.value;
+            $input.value = '';
+            if(!checkInput(value)) {
+                return;
+            }
+            // 입력값 문제 없음 
+            if (answer.join('') === value) { // [3,1,4,6] -> '3146' *join: 배열을 문자열로 바꾸는 메소드
+                $logs.textContent = '홈런!';
+                return;
+            }
+            if (tries.length >= 9) {
+                const message = document.createTextNode(`패배! 정답은 ${answer.join('')}`);
+                $logs.appendChild(message);
+                return;
+            }
+            //몇 스트라이크 몇 볼인지 검사
+            // 프로그램을 통하여 무언가를 '센다'고 하면, 변수를 만들어서 카운트를 해야 한다. 
+            let strike = 0;
+            let ball = 0;
+            // answer: 3146, value: 1347
+            for (let i = 0; i < answer.length; i++) {
+                const index = value.indexOf(answer[i]);
+                if (index > -1) { // 일치하는 숫자 발견
+                    if (index === i) { // 자릿수도 같음
+                        strike += 1; 
+                    } else { // 숫자만 같음 
+                        ball += 1;
+                    }
+                }
+            }
+            if (strike === 0 && ball === 0) {
+                out++;
+                $logs.append( `${value}:아웃`, document.createElement('br'));
+            } else {
+                $logs.append(`${value}: ${strike} 스트라이크 ${ball} 볼`, document.createElement('br'));
+            }
+            if (out === 3) {
+                const message = document.createTextNode(`패배! 정답은 ${answer.join('')}`);
+                $logs.appendChild(message);
+                return;
+            }
+            tries.push(value); // 한번 시도할 때마다 값을 기록 -> 몇번 시도했는지 세는 역할 
+    });
+    </script>
+
+</body>
+</html>
