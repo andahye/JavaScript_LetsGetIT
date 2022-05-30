@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bulls And Cows_입력값 검증하기</title>
+</head>
+<body>
+
+    <form id="form">
+        <input type="text" id="input">
+        <button>확인</button>
+    </form>
+    <div id="logs">
+
+    </div>
+    
+    <script>
+        const $input = document.querySelector('#input');
+        const $form = document.querySelector('#form');
+        const $logs = document.querySelector('#logs');
+
+        const numbers = []; 
+        for (let n = 0; n < 9; n += 1) {
+            numbers.push(n + 1);
+        }
+        const answer = [];
+        for (let n = 0; n < 4; n += 1) { // 4번 반복
+            const index = Math.floor(Math.random() * (numbers.length)); // 0~8정수
+            answer.push(numbers[index]);
+            numbers.splice(index, 1);
+        }
+        console.log(answer);
+
+        const tries = [];
+        function checkInput(input) {
+            if (input.length !== 4) { // 길이는 4가 아닌가 
+                return alert('4자리 숫자를 입력해 주세요.');
+            }
+            if (new Set(input).size !== 4) { // 중복된 숫자가 있는가 
+                // *new Set: 중복을 제거하는 배열. 예를 들어 3144를 입력했을 경우 314만 입력됨.
+                return alert('중복되지 않게 입력해 주세요.');
+            }
+            if (tries.includes(input)) { // 이미 시도한 값은 아닌가 
+                return alert('이미 시도한 값입니다.');
+            }
+            return true;
+        } // 검사하는 코드. 가능한 함수로 뺄 수 있는 것들은 함수로 빼자. 함수로 쪼갠다고 생각하면 됨. 
+
+        $form.addEventListener('submit', (event) => {
+            event.preventDefault(); // 기본 동작 막기
+            const value = $input.value;
+            $input.value = '';
+            if (checkInput(value)) {
+                // 입력값 문제 없음 
+                tries.push(value);
+            } else {
+                // 에러 있음
+            }
+        });
+
+    </script>
+
+</body>
+</html>
